@@ -1,0 +1,64 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #333;
+    margin-top: 20px;
+}
+
+/* Game container styles */
+#game-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Map styles */
+#map {
+    width: 100%;
+    height: 400px;
+    background-color: #e0e0e0;
+    position: relative;
+    border: 2px solid #333;
+    margin-bottom: 20px;
+}
+
+/* City styles (will be added dynamically later) */
+.city {
+    width: 30px;
+    height: 30px;
+    background-color: #ff5722;
+    border-radius: 50%;
+    position: absolute;
+}
+
+/* Button styles */
+#check-route {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#check-route:hover {
+    background-color: #45a049;
+}
+
+/* Message styles */
+#message {
+    font-size: 18px;
+    color: #333;
+}
+
