@@ -62,3 +62,18 @@ h1 {
     color: #333;
 }
 
+/* Estilos para el botón de reiniciar juego */
+#reset-game {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f44336; /* Rojo */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px; /* Espaciado entre los botones */
+}
+
+#reset-game:hover {
+    background-color: #e53935; /* Rojo oscuro */
+}

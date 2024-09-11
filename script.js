@@ -5,9 +5,14 @@ let selectedCities = []; // Ciudades seleccionadas por el jugador
 
 // Función para generar ciudades
 function generateCities() {
+    // Eliminar ciudades existentes
+    map.innerHTML = ''; // Limpia el contenido del contenedor del mapa
+    cities.length = 0; // Limpiar el array de ciudades
+
     for (let i = 0; i < numCities; i++) {
         const city = document.createElement('div');
         city.classList.add('city');
+        city.style.border = ''; // Asegurarse de que el borde esté vacío
 
         // Posicionar la ciudad en un lugar aleatorio
         const x = Math.floor(Math.random() * (map.clientWidth - 30));
@@ -24,8 +29,10 @@ function generateCities() {
     }
 }
 
+// Inicializar el juego
 generateCities();
 
+// Función para manejar el inicio del arrastre
 function handleDragStart(e) {
     e.target.classList.add('dragging');
 }
@@ -51,7 +58,10 @@ function handleDrop(e) {
     }
 
     if (selectedCities.length === cities.length) {
-        document.getElementById('message').textContent = '¡Todas las ciudades han sido visitadas! Ahora puedes verificar tu ruta.';
+        const messageElement = document.getElementById('message');
+        if (messageElement) {
+            messageElement.textContent = '¡Todas las ciudades han sido visitadas! Ahora puedes verificar tu ruta.';
+        }
     }
 
     if (cityElement) {
@@ -71,21 +81,46 @@ function calculateDistance(cityA, cityB) {
 
 // Función para verificar la ruta y calcular la puntuación
 function verifyRoute() {
-    if (selectedCities.length === cities.length) {
-        let totalDistance = 0;
-        for (let i = 0; i < selectedCities.length - 1; i++) {
-            totalDistance += calculateDistance(selectedCities[i], selectedCities[i + 1]);
+    const messageElement = document.getElementById('message');
+    const scoreElement = document.getElementById('score');
+    if (messageElement && scoreElement) {
+        if (selectedCities.length === cities.length) {
+            let totalDistance = 0;
+            for (let i = 0; i < selectedCities.length - 1; i++) {
+                totalDistance += calculateDistance(selectedCities[i], selectedCities[i + 1]);
+            }
+
+            // Distancia entre la última ciudad y la primera para cerrar el ciclo
+            totalDistance += calculateDistance(selectedCities[selectedCities.length - 1], selectedCities[0]);
+
+            const score = Math.floor(10000 / totalDistance); // Cuanto menor la distancia, mayor la puntuación
+            messageElement.textContent = '¡Ruta completada correctamente!';
+            scoreElement.textContent = `Puntuación: ${score}`;
+        } else {
+            messageElement.textContent = 'No has visitado todas las ciudades. Inténtalo de nuevo.';
         }
-
-        // Distancia entre la última ciudad y la primera para cerrar el ciclo
-        totalDistance += calculateDistance(selectedCities[selectedCities.length - 1], selectedCities[0]);
-
-        const score = Math.floor(10000 / totalDistance); // Cuanto menor la distancia, mayor la puntuación
-        document.getElementById('message').textContent = '¡Ruta completada correctamente!';
-        document.getElementById('score').textContent = `Puntuación: ${score}`;
-    } else {
-        document.getElementById('message').textContent = 'No has visitado todas las ciudades. Inténtalo de nuevo.';
     }
 }
 
 document.getElementById('check-route').addEventListener('click', verifyRoute);
+
+// Función para reiniciar el juego
+function resetGame() {
+    selectedCities = [];
+    const messageElement = document.getElementById('message');
+    const scoreElement = document.getElementById('score');
+    if (messageElement && scoreElement) {
+        messageElement.textContent = ''; // Limpiar el mensaje
+        scoreElement.textContent = ''; // Limpiar la puntuación
+    }
+
+    // Eliminar las ciudades del DOM
+    const cityElements = document.querySelectorAll('.city');
+    cityElements.forEach(el => el.remove());
+
+    // Volver a generar ciudades
+    generateCities();
+}
+
+// Asignar el evento de clic al botón de reiniciar
+document.getElementById('reset-game').addEventListener('click', resetGame);
